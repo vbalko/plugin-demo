@@ -1,18 +1,7 @@
-const mysuperlibrary = require('./lib')
+const App = require('./App');
+const PluginManager = require('./plugins/PluginManager');
+const pluginManager = new PluginManager();
 
-mysuperlibrary.plugins.register({
-  hooks: {
-    'hooks:print': ({data}, handler) => {
-      // Alter the argument
-      data.message = 'Hello World'
-      // Print a message before the library code
-      console.log('>>>>>>>>>>>')
-      // Call the original handler
-      const result = handler.call(null, {data: data})
-      // Print a message after the library code
-      console.log('<<<<<<<<<<<')
-      return result
-    }
-  }
-})
-mysuperlibrary.print()
+const app = new App(pluginManager);
+
+app.print();
