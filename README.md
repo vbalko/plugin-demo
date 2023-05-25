@@ -1,36 +1,47 @@
-# Plugin demo app
-Demo and PoC for plugin implementation in Node.js
+# Plugin Demo App
 
-This example consists from three parts
-1. Main application (./App.js)
-2. Plugin manager (./plugins/PluginManager.js)
-3. MessageDecorator plugin (./plugins/message-decorator)
+This readme provides an overview of a Node.js application that demonstrates and serves as a proof-of-concept for plugin implementation.
+
+The application is divided into three parts:
+
+1. Main application (`App.js`)
+2. Plugin manager (`plugins/PluginManager.js`)
+3. MessageDecorator plugin (`plugins/message-decorator`)
 
 ## Architecture
+
 ### Hook
-Hook is extension point in application. It is added to the application in design time on exact place in the function/method which could be extended.
+A hook serves as an extension point within the application. It is strategically placed in a function or method that can be extended.
+
 ### Plugin
-Plugin is additional functionality, which can add new functionality to application. It is designed to be used for exact **hook** and works with data provided by the hook. 
-> Plugin have to extend AbstractPlugin class and must have *pluginConfig* object
+A plugin is an additional functionality that can be integrated into the application, enabling the addition of new features. Plugins are designed to be used with specific hooks and operate on data provided by those hooks. 
+
+> To create a plugin, it must extend the `AbstractPlugin` class and include a `pluginConfig` object.
+
 ### Plugin Manager
-Plugin manager is class, which manages loading plugins - based on a config object passed into it.
+The plugin manager is responsible for loading plugins based on a configuration object passed to it. It also handles the invocation of plugins for the hooks.
 
-It also handles calling the plugins for hooks.
+> The plugin manager should be imported into the application. At the desired hook location, the following code should be used:
 
-> Plugin manager should be imported into the application and on a place, where there should be some hook, call 
 ```js
-    const PluginManager = require(./plugin-manager);
-    const pluginManager = new PluginManager();
+const PluginManager = require('./plugin-manager');
+const pluginManager = new PluginManager();
 
-    function toBeExtended(data) {
-        //here is place where plugin could be called
-        const newData = pluginManager.callHooks('hookName',data);
-    }
+function toBeExtended(data) {
+    // This is where the plugin can be called
+    const newData = pluginManager.callHooks('hookName', data);
+}
 ```
 
-## Get started
-To get started with prepared example plugin
+## Get Started
+To begin using the provided example plugin, follow these steps:
+
+1. Install dependencies:
 ```
 npm install
+```
+
+2. Run the application:
+```
 node index.js
 ```
